@@ -1,0 +1,37 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  id: String!
+  name: String!
+  description: String!
+  excerpt: String!
+  price: Int!
+  createdAt: Timestamp
+  updatedAt: Timestamp
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+type Query {
+  getProducts: [Product!]!
+}
+
+type Mutation {
+  createProduct(product: NewProductInput!): Product!
+}
+
+input NewProductInput {
+  name: String!
+  description: String!
+  excerpt: String!
+  price: Float!
+}
+
+type Subscription {
+  productAdded: Product!
+}
