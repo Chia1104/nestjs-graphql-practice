@@ -8,10 +8,14 @@ export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getProducts(): Promise<Product[]> {
-    return this.prisma.product.findMany();
+    return await this.prisma.product.findMany();
   }
 
   async createProduct(product: NewProductInput): Promise<Product> {
-    return this.prisma.product.create({ data: product });
+    return await this.prisma.product.create({ data: product });
+  }
+
+  async getProductById(id: string): Promise<Product> {
+    return await this.prisma.product.findUnique({ where: { id } });
   }
 }

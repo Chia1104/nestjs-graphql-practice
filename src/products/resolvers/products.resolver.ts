@@ -13,14 +13,14 @@ export class ProductsResolver {
 
   @Query(() => [ProductModel])
   async getProducts(): Promise<Product[]> {
-    return this.productsService.getProducts();
+    return await this.productsService.getProducts();
   }
 
   @Mutation(() => ProductModel)
   async createProduct(
     @Args('product') product: NewProductInput,
   ): Promise<Product> {
-    return this.productsService.createProduct(product);
+    return await this.productsService.createProduct(product);
   }
 
   @Subscription(() => ProductModel)
