@@ -18,7 +18,7 @@ type Product {
 scalar Timestamp
 
 type Query {
-  getProducts: [Product!]!
+  getAllProducts: [Product!]!
   getProductById(id: String!): Product!
 }
 

@@ -7,13 +7,7 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
-import {
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-  ApiBearerAuth,
-  ApiBody,
-} from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
 import { ProductsService } from '../services';
 import { Product } from '@prisma/client';
@@ -29,8 +23,8 @@ export class ProductsController {
   @ApiOperation({ summary: 'Get all products' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Not Found.' })
-  async getProducts(): Promise<Product[]> {
-    const products = await this.productsService.getProducts();
+  async getAllProducts(): Promise<Product[]> {
+    const products = await this.productsService.getAllProducts();
     if (!products) throw new NotFoundException('Products not found');
     return products;
   }
@@ -65,10 +59,18 @@ export class ProductsController {
     @Param('id') _id: string,
     @Body() product: UpdateProductInput,
   ): Promise<Product> {
-    try {
-      return await this.productsService.updateProduct(_id, product);
-    } catch (error) {
-      throw new ForbiddenException(error.code);
-    }
+    const data = await this.productsService.getProductById(_id);
+    if (!data) throw new NotFoundException('Product not found');
+    return await this.productsService.updateProduct(_id, product);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete product by id(_id)' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Not Found.' })
+  async deleteProduct(@Param('id') _id: string): Promise<Product> {
+    const data = await this.productsService.getProductById(_id);
+    if (!data) throw new NotFoundException('Product not found');
+    return await this.productsService.deleteProduct(_id);
   }
 }

@@ -11,23 +11,23 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @InputType()
 export class UpdateProductInput {
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   @Field({ nullable: true })
   @MaxLength(25)
   readonly name?: string;
 
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   @Field({ nullable: true })
   @Length(10, 255)
   readonly description?: string;
 
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   @Field({ nullable: true })
   @IsOptional()
   @MaxLength(50)
   readonly excerpt?: string;
 
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   @Field({ nullable: true })
   @IsInt()
   @Min(0)

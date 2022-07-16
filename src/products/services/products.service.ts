@@ -8,7 +8,7 @@ import { UpdateProductInput } from '../DTO/update-product.input';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getProducts(): Promise<Product[]> {
+  async getAllProducts(): Promise<Product[]> {
     return await this.prisma.product.findMany();
   }
 

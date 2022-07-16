@@ -14,8 +14,8 @@ export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}
 
   @Query(() => [ProductModel])
-  async getProducts(): Promise<Product[]> {
-    const data = await this.productsService.getProducts();
+  async getAllProducts(): Promise<Product[]> {
+    const data = await this.productsService.getAllProducts();
     if (!data) throw new NotFoundException('Products not found');
     return data;
   }
@@ -45,24 +45,20 @@ export class ProductsResolver {
     @Args('id') id: string,
     @Args('product') product: UpdateProductInput,
   ): Promise<Product> {
-    try {
-      const data = await this.productsService.updateProduct(id, product);
-      await pubSub.publish('productUpdated', { productUpdated: data });
-      return data;
-    } catch (error) {
-      throw new ForbiddenException(error.code);
-    }
+    const dataId = await this.productsService.getProductById(id);
+    if (!dataId) throw new NotFoundException('Product not found');
+    const data = await this.productsService.updateProduct(id, product);
+    await pubSub.publish('productUpdated', { productUpdated: data });
+    return data;
   }
 
   @Mutation(() => Boolean)
   async deleteProduct(@Args('id') id: string) {
-    try {
-      const data = await this.productsService.deleteProduct(id);
-      await pubSub.publish('productDeleted', { productDeleted: data });
-      return true;
-    } catch (error) {
-      throw new ForbiddenException(error.code);
-    }
+    const dataId = await this.productsService.getProductById(id);
+    if (!dataId) throw new NotFoundException('Product not found');
+    const data = await this.productsService.deleteProduct(id);
+    await pubSub.publish('productDeleted', { productDeleted: data });
+    return true;
   }
 
   @Subscription(() => ProductModel)
