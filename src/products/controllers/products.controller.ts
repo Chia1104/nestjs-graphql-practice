@@ -14,10 +14,11 @@ import {
   ApiBearerAuth,
   ApiBody,
 } from '@nestjs/swagger';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, ForbiddenException } from '@nestjs/common';
 import { ProductsService } from '../services';
 import { Product } from '@prisma/client';
 import { NewProductInput } from '../DTO/new-product.input';
+import { UpdateProductInput } from '../DTO/update-product.input';
 
 @ApiTags('products')
 @Controller('products')
@@ -42,5 +43,32 @@ export class ProductsController {
     const product = await this.productsService.getProductById(_id);
     if (!product) throw new NotFoundException('Product not found');
     return product;
+  }
+
+  @Post()
+  @ApiOperation({ summary: 'Create new product' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Not Found.' })
+  async createProduct(@Body() product: NewProductInput): Promise<Product> {
+    try {
+      return await this.productsService.createProduct(product);
+    } catch (error) {
+      throw new ForbiddenException(error.code);
+    }
+  }
+
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update product by id(_id)' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Not Found.' })
+  async updateProduct(
+    @Param('id') _id: string,
+    @Body() product: UpdateProductInput,
+  ): Promise<Product> {
+    try {
+      return await this.productsService.updateProduct(_id, product);
+    } catch (error) {
+      throw new ForbiddenException(error.code);
+    }
   }
 }

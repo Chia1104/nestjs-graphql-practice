@@ -19,10 +19,13 @@ scalar Timestamp
 
 type Query {
   getProducts: [Product!]!
+  getProductById(id: String!): Product!
 }
 
 type Mutation {
   createProduct(product: NewProductInput!): Product!
+  updateProduct(id: String!, product: UpdateProductInput!): Product!
+  deleteProduct(id: String!): Boolean!
 }
 
 input NewProductInput {
@@ -32,6 +35,15 @@ input NewProductInput {
   price: Float!
 }
 
+input UpdateProductInput {
+  name: String
+  description: String
+  excerpt: String
+  price: Float
+}
+
 type Subscription {
   productAdded: Product!
+  productUpdated: Product!
+  productDeleted: Product!
 }

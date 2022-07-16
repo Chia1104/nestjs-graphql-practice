@@ -1,6 +1,7 @@
 # Nest.js GraphQL practice
 
-This is a simple graphql project, built with [Nest.js](https://nestjs.com/) and using [GraphQL](https://graphql.org/), [PlanetScale](https://planetscale.com/), [Prisma](https://www.prisma.io/).
+This is a simple [GraphQL](https://graphql.org/) server using [Nest.js](https://nestjs.com/),
+and uses [Prisma](https://www.prisma.io/), [PlanetScale](https://planetscale.com/),
 
 ## Languages and Tools
 
@@ -21,9 +22,9 @@ This is a simple graphql project, built with [Nest.js](https://nestjs.com/) and 
 
 # Features
 
-- [X] GraphQL
-- [X] Prisma ORM
-- [X] PlanetScale(Mysql)
+- [X] [GraphQL](https://graphql.org/)
+- [X] [Prisma ORM](https://www.prisma.io/)
+- [X] [PlanetScale](https://planetscale.com/)
 - [ ] Authentication
 - [ ] Dockerized
 
